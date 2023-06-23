@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package api.service.data;
+
+option go_package = "web3/api/service/data;data";
+option java_multiple_files = true;
+option java_package = "api.service.data";
+
+import "service/data/base.proto";
+
+service Defi {
+  rpc GetDefiPrice (GetDefiPriceRequest) returns (GetDefiPriceReply);
+}
+
+message GetDefiPriceRequest {
+  string source_token = 1;
+  string target_token = 2;
+}
+message GetDefiPriceReply {
+  DefiPriceItem item = 1;
+}
+

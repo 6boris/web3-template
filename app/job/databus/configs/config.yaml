@@ -1,0 +1,29 @@
+app:
+  id: app.service.databus
+  env: dev
+  instance: app.service.databus.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:63021
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:63022
+    timeout: 1s
+client:
+  app_service_data_grpc: 127.0.0.1:62022
+rabbitmq:
+  c_web3_new_block_eth:
+      url: amqp://guest:guest@localhost
+      exchange_name: web3_new_block_eth
+      exchange_kind: fanout
+      queue_name: web3_new_block_eth_databus
+      concurrency: 50
+  c_web3_new_block_aptos:
+    url: amqp://guest:guest@localhost
+    exchange_name: web3_new_block_aptos
+    exchange_kind: fanout
+    queue_name: web3_new_block_aptos_databus
+    concurrency: 10

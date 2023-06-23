@@ -1,0 +1,32 @@
+app:
+  id: app.service.datawatch
+  env: dev
+  instance: app.service.datawatch.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:63011
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:63012
+    timeout: 1s
+data:
+  mysql:
+    name: base.web3.mysql
+    dsn: root:@tcp(127.0.0.1:3306)/web3?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    name: base.web3.redis
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+rabbitmq:
+  p_web3_new_block_eth:
+      url: amqp://guest:guest@localhost
+      exchange_name: web3_new_block_eth
+      exchange_kind: fanout
+  p_web3_new_block_aptos:
+      url: amqp://guest:guest@localhost
+      exchange_name: web3_new_block_aptos
+      exchange_kind: fanout

@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package api.interface.web3;
+
+option go_package = "web3/api/interface/web3;web3";
+option java_multiple_files = true;
+option java_package = "api.interface.web3";
+
+import "google/api/annotations.proto";
+
+service Defi {
+  rpc GetTokenPrice (GetTokenPriceRequest) returns (GetTokenPriceReply) {
+    option (google.api.http) = {
+      get: "/api/gateway/interface/web3/defi/price"
+    };
+  };
+}
+
+message GetTokenPriceRequest {
+  string source_token = 1;
+  string target_token = 2;
+}
+message GetTokenPriceReply {
+  message Price {
+    double price = 1 [json_name = "price"];
+    int64 timestamp = 2 [json_name = "timestamp"];
+    string source_token = 3 [json_name = "source_token"];
+    string target_token = 4 [json_name = "target_token"];
+  }
+  map<string, Price> price = 1 [json_name = "price"];
+}

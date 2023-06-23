@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package api.service.demo;
+
+option go_package = "web3/api/service/demo;demo";
+option java_multiple_files = true;
+option java_package = "api.service.demo";
+
+import "google/api/annotations.proto";
+import "service/demo/base.proto";
+
+service User {
+	rpc CreateUser (CreateUserRequest) returns (CreateUserReply);
+	rpc UpdateUser (UpdateUserRequest) returns (UpdateUserReply);
+	rpc DeleteUser (DeleteUserRequest) returns (DeleteUserReply);
+	rpc GetUser (GetUserRequest) returns (GetUserReply){
+    option (google.api.http) = {
+      get: "/api/service/demo/user/{id}"
+    };
+  };
+	rpc ListUser (ListUserRequest) returns (ListUserReply);
+}
+
+message CreateUserRequest {
+	UserItem item = 1 [json_name = "item"];
+}
+message CreateUserReply {
+	  int64 id = 1 [json_name = "id"];
+}
+
+message UpdateUserRequest {}
+message UpdateUserReply {}
+
+message DeleteUserRequest {}
+message DeleteUserReply {}
+
+message GetUserRequest {
+	int64 id = 1;
+}
+message GetUserReply {
+  UserItem item = 1 [json_name = "item"];
+}
+
+message ListUserRequest {}
+message ListUserReply {}

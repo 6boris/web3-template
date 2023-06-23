@@ -1,0 +1,50 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "web3/app/job/datawatch/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+message Bootstrap {
+  App app = 1;
+  Server server = 2;
+  Client client= 3;
+  RabbitMQ rabbitmq= 4;
+}
+
+message App {
+  string id = 1;
+  string env = 2;
+  string cluster = 3;
+  string zone = 4;
+  string instance = 5;
+  string version = 6;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}
+message Client {
+  string app_service_datawatch_http = 1;
+  string app_service_datawatch_grpc = 2;
+  string app_interface_web3_http = 3;
+}
+message RabbitMQ {
+  message Producer {
+    string url = 1;
+    string exchange_name = 2;
+    string exchange_kind = 3;
+  }
+  Producer p_web3_new_block_eth = 1;
+  Producer p_web3_new_block_aptos = 2;
+}

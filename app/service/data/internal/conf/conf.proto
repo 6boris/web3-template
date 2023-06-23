@@ -1,0 +1,68 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "studio/meetup/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+message Bootstrap {
+  App app = 1;
+  Server server = 2;
+  Data data= 3;
+  Client client= 4;
+}
+
+message App {
+  string id = 1;
+  string env = 2;
+  string cluster = 3;
+  string zone = 4;
+  string instance = 5;
+  string version = 6;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}
+
+message Redis {
+  string name = 1;
+  string network = 2;
+  string addr = 3;
+  string password = 4;
+  int64 db = 5;
+  int64 min_idle_conns = 6;
+  int64 max_idle_conns = 7;
+  google.protobuf.Duration dial_timeout = 8;
+  google.protobuf.Duration read_timeout = 9;
+  google.protobuf.Duration write_timeout = 10;
+  google.protobuf.Duration conn_max_idle_time = 11;
+  google.protobuf.Duration conn_max_life_time = 12;
+}
+
+message Data {
+  message MySQL {
+    string name = 1;
+    string dsn = 2;
+  }
+  message Database {
+    string driver = 1;
+    string source = 2;
+  }
+  MySQL mysql = 1;
+  Redis redis = 2;
+}
+message Client {
+  string app_service_data_http = 1;
+  string app_service_data_grpc = 2;
+}

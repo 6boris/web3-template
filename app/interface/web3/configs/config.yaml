@@ -1,0 +1,18 @@
+app:
+  id: app.interface.web3
+  env: dev
+  instance: app.interface.web3.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:61011
+    timeout: 10s
+  grpc:
+    addr: 0.0.0.0:61021
+    timeout: 10s
+client:
+  app_service_demo_http: 127.0.0.1:62011
+  app_service_demo_grpc: 127.0.0.1:62012
+  app_service_data_grpc: 127.0.0.1:62022

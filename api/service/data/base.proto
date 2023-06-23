@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package api.service.data;
+
+option go_package = "web3/api/service/data;data";
+option java_multiple_files = true;
+option java_package = "api.service.data";
+
+import "google/protobuf/timestamp.proto";
+
+message DefiPriceItem {
+  double price = 1;
+  int64 timestamp = 2;
+  string source_token = 3;
+  string target_token = 4;
+}
+
+message BlockItem {
+  int64 number = 1;
+  string hash = 2;
+  string parent_hash = 3;
+  int64 timestamp = 4;
+  string difficulty = 5;
+  string extra_data = 6;
+  string gas_limit = 7;
+  string gas_used = 8;
+  string base_fee_per_gas = 9;
+  string miner = 10;
+  string mix_hash = 11;
+  string nonce = 12;
+  string receipts_root = 13;
+  string sha3_uncles = 14;
+  int64 size = 15;
+  string state_root = 16;
+  string transactions_root = 17;
+  int64 transactions_count = 18;
+  int64 uncles_count = 19;
+  int64 chain_id = 20;
+  int64 chain_unique_id = 21;
+  google.protobuf.Timestamp created_at = 22;
+  google.protobuf.Timestamp updated_at = 23;
+}
+
+message TransactionItem {
+  int64 type = 1;
+  int64 status = 2;
+  string block_hash = 3;
+  int64 block_number = 4;
+  int64 block_timestamp = 5;
+  string transaction_hash = 6;
+  int64 transaction_index = 7;
+  string from_address = 8;
+  string to_address = 9;
+  string value = 10;
+  string input = 11;
+  int64 nonce = 12;
+  string contract_address = 13;
+  int64 gas = 14;
+  int64 gas_price = 15;
+  int64 gas_used = 16;
+  int64 effective_gas_price = 17;
+  int64 cumulative_gas_used = 18;
+  int64 max_fee_per_gas = 19;
+  int64 max_priority_fee_per_gas = 20;
+  int64 logs_count = 21;
+  string r = 22;
+  string s = 23;
+  int64 v = 24;
+
+  int64 chain_id = 30;
+  int64 chain_unique_id = 31;
+  google.protobuf.Timestamp created_at = 32;
+  google.protobuf.Timestamp updated_at = 33;
+}

@@ -1,0 +1,27 @@
+app:
+  id: app.service.demo
+  env: dev
+  instance: app.service.demo.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+data:
+  mysql:
+    name: base.web3.redis
+    dsn: root:web3@tcp(base.web3.mysql:3306)/web3?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    name: base.web3.redis
+    addr: base.web3.redis:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s
+client:
+  app_service_demo_http: app.service.demo:8000
+  app_service_demo_grpc: app.service.demo:9000
+  app_interface_web3_http: app.interface.web3:8000

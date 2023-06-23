@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package api.service.demo;
+
+option go_package = "web3/api/service/demo;demo";
+option java_multiple_files = true;
+option java_package = "api.service.demo";
+
+import "google/protobuf/timestamp.proto";
+
+message UserItem {
+  int64 id = 1;
+  string nick_name = 2;
+  string avatar_url = 3;
+  string email = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
+

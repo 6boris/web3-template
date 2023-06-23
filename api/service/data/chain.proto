@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package api.service.data;
+
+option go_package = "web3/api/service/data;data";
+option java_multiple_files = true;
+option java_package = "api.service.data";
+
+import "service/data/base.proto";
+
+service Chain {
+	rpc SyncBlockInfo (SyncBlockInfoRequest) returns (SyncBlockInfoReply);
+	rpc SyncBlockTransactionInfo (SyncBlockTransactionInfoRequest) returns (SyncBlockTransactionInfoReply);
+}
+
+message SyncBlockInfoRequest {
+	BlockItem item = 1;
+}
+message SyncBlockInfoReply {}
+
+
+message SyncBlockTransactionInfoRequest {
+	TransactionItem item = 1;
+}
+message SyncBlockTransactionInfoReply {}

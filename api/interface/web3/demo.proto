@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package api.interface.web3;
+
+option go_package = "web3/api/interface/web3;web3";
+option java_multiple_files = true;
+option java_package = "api.interface.web3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+service Demo {
+  rpc GetUser(GetUserRequest) returns (GetUserReply) {
+    option (google.api.http) = {
+      get: "/api/gateway/interface/web3/demo/user/{id}"
+    };
+  };
+  rpc CreateUser (CreateUserRequest) returns (CreateUserReply) {
+    option (google.api.http) = {
+      post: "/api/gateway/interface/web3/demo/user"
+      body:"*",
+    };
+  };
+}
+
+message GetUserRequest {
+  int64 id = 1 [json_name = "id"];
+}
+message GetUserReply {
+  message Item {
+    int64 id = 1 [json_name = "id"];
+    string nick_name = 2 [json_name = "nick_name"];
+    string avatar_url = 3 [json_name = "avatar_url"];
+    string email = 4 [json_name = "email"];
+    google.protobuf.Timestamp created_at = 5 [json_name = "created_at"];
+    google.protobuf.Timestamp updated_at = 6 [json_name = "updated_at"];
+  }
+  Item item = 1 [json_name = "item"];
+}
+message CreateUserRequest {}
+message CreateUserReply {
+  int64 id = 1 [json_name = "id"];
+}

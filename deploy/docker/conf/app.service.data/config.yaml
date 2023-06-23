@@ -1,0 +1,23 @@
+app:
+  id: app.service.data
+  env: dev
+  instance: app.service.data.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 5s
+data:
+  mysql:
+    name: web3.data.mysql
+    dsn: root:web3@tcp(base.web3.mysql:3306)/web3?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    name: base.web3.redis
+    addr: base.web3.redis:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s

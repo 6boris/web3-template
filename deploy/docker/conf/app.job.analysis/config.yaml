@@ -1,0 +1,20 @@
+app:
+  id: app.service.analysis
+  env: dev
+  instance: app.service.analysis.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+client:
+  app_service_data_grpc: app.service.data:9000
+data:
+  mysql:
+    name: base.web3.mysql
+    dsn: root:web3@tcp(base.web3.mysql:3306)/web3?charset=utf8mb4&parseTime=True&loc=Local

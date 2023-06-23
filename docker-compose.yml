@@ -1,0 +1,125 @@
+version: "3.9"
+name: "web3"
+services:
+  base.web3.mysql:
+    image: 'mysql:latest'
+    container_name: base.web3.mysql
+    command: >-
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
+      --explicit_defaults_for_timestamp=true --lower_case_table_names=1
+#      --init-file=/app/mysql/init.sql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: web3
+      MYSQL_DATABASE: web3
+      TZ: Asia/Shanghai
+#    ports:
+#        - '60001:3306'
+    volumes:
+      - ./deploy/docker/mysql/init.sql:/app/mysql/init.sql
+    networks:
+      - web3_net
+  base.web3.redis:
+    image: 'redis:alpine'
+    container_name: base.web3.redis
+    restart: on-failure
+    networks:
+      - web3_net
+  base.web3.rabbitmq:
+    image: 'rabbitmq:management'
+    container_name: base.web3.rabbitmq
+    restart: on-failure
+#    ports:
+#      - '60003:15672'
+    networks:
+      - web3_net
+  base.web3.prometheus:
+    image: 'bitnami/prometheus:latest'
+    container_name: base.web3.prometheus
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml
+    networks:
+      - web3_net
+    ports:
+      - '60004:9090'
+  base.web3.grafana:
+    image: 'grafana/grafana:latest'
+    container_name: base.web3.grafana
+    restart: on-failure
+    environment:
+      GF_FEATURE_TOGGLES_ENABLE: publicDashboards
+    volumes:
+      - ./deploy/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
+#      - ./deploy/docker/grafana/data:/var/lib/grafana \
+    networks:
+      - web3_net
+    ports:
+      - '60005:3000'
+  base.web3.cadvisor:
+    image: 'gcr.io/cadvisor/cadvisor:latest'
+    container_name: base.web3.cadvisor
+    restart: on-failure
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    networks:
+      - web3_net
+  app.interface.web3:
+    image: 'web3/app-interface-web3:latest'
+    container_name: app.interface.web3
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.interface.web3:/app/configs
+    ports:
+      - '51011:8000'
+    networks:
+      - web3_net
+  app.service.data:
+    image: 'web3/app-service-data:latest'
+    container_name: app.service.data
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.service.data:/app/configs
+    networks:
+      - web3_net
+  app.service.demo:
+    image: 'web3/app-service-demo:latest'
+    container_name: app.service.demo
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.service.demo:/app/configs
+    networks:
+      - web3_net
+  app.job.datawatch:
+    image: 'web3/app-job-datawatch:latest'
+    container_name: app.job.datawatch
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.job.datawatch:/app/configs
+    networks:
+      - web3_net
+  app.job.databus:
+    image: 'web3/app-job-databus:latest'
+    container_name: app.job.databus
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.job.databus:/app/configs
+    networks:
+      - web3_net
+  app.job.analysis:
+    image: 'web3/app-job-analysis:latest'
+    container_name: app.job.analysis
+    restart: on-failure
+    volumes:
+      - ./deploy/docker/conf/app.job.analysis:/app/configs
+    networks:
+      - web3_net
+networks:
+    web3_net:
+      driver: bridge
+      driver_opts:
+        com.docker.network.driver.mtu: 1450

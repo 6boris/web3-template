@@ -19,3 +19,12 @@
 
 # Go workspace file
 go.work
+
+
+
+.idea
+.vscode
+
+deploy/docker/mysql/data
+deploy/docker/prometheus/data
+deploy/docker/grafana/data
