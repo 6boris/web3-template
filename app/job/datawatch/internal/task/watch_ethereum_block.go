@@ -26,7 +26,7 @@ type WatchEthereumNewBlockHeader struct {
 
 func NewWatchEthereumNewBlockHeader() *WatchEthereumNewBlockHeader {
 	inst := &WatchEthereumNewBlockHeader{
-		stopNotice: make(chan struct{}, 1),
+		stopNotice: make(chan struct{}, 3),
 		dataCh:     make(chan *ConsumerData, 10),
 	}
 	inst.watchHooks = map[string]WatchHook{

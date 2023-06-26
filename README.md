@@ -32,6 +32,24 @@ Here is the architecture diagram and examples:
   <img src="https://s.gin.sh/develop/web3/web3-template-demo.png" alt="Logo">
 </a>
 
+
+## Quick Start
+
+- clone repo
+```shell
+git clone git@github.com:6boris/web3-template.git
+cd web3-template
+```
+
+- Install [Docker](https://code.visualstudio.com)
+
+- Local run 
+```shell
+make clean && make start
+```
+- Open Grafana http://localhost:60005
+  - Login with admin/admin
+
 ## Development Manual
 
 - Learn about [Go](https://go-kratos.dev) Basic Grammar
@@ -43,13 +61,6 @@ Here is the architecture diagram and examples:
     - [MySQL](https://www.mysql.com)
     - [Redis](https://redis.io)
     - [RabbitMQ](https://www.rabbitmq.com/)
-- import mysql init data
-
-```shell
-mysql -uroot -pweb3
-use web3
-source deploy/docker/mysql/init.sql
-```
 
 ## Development Information
 
@@ -63,7 +74,6 @@ Some basic application services and basic service ports
 |  app.job.datawatch  |   63011   |   63012   |
 |   app.job.databus   |   63021   |   63022   |
 |  app.job.analysis   |   63031   |   63032   |
-| app.service.databus |   63021   |   63022   |
 
 |         App          |          PORT          |
 |:--------------------:|:----------------------:|

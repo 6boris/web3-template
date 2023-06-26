@@ -8,16 +8,16 @@ services:
       --default-authentication-plugin=mysql_native_password
       --character-set-server=utf8mb4 --collation-server=utf8mb4_general_ci
       --explicit_defaults_for_timestamp=true --lower_case_table_names=1
-#      --init-file=/app/mysql/init.sql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: web3
       MYSQL_DATABASE: web3
       TZ: Asia/Shanghai
-#    ports:
-#        - '60001:3306'
+    ports:
+        - '60001:3306'
     volumes:
-      - ./deploy/docker/mysql/init.sql:/app/mysql/init.sql
+      - ./deploy/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./deploy/docker/mysql/data:/var/lib/mysql
     networks:
       - web3_net
   base.web3.redis:
@@ -30,8 +30,8 @@ services:
     image: 'rabbitmq:management'
     container_name: base.web3.rabbitmq
     restart: on-failure
-#    ports:
-#      - '60003:15672'
+    ports:
+      - '60003:15672'
     networks:
       - web3_net
   base.web3.prometheus:
@@ -40,6 +40,7 @@ services:
     restart: on-failure
     volumes:
       - ./deploy/docker/prometheus/prometheus.yml:/opt/bitnami/prometheus/conf/prometheus.yml
+      - ./deploy/docker/prometheus/data:/opt/bitnami/prometheus/data
     networks:
       - web3_net
     ports:
@@ -52,7 +53,10 @@ services:
       GF_FEATURE_TOGGLES_ENABLE: publicDashboards
     volumes:
       - ./deploy/docker/grafana/grafana.ini:/etc/grafana/grafana.ini
-#      - ./deploy/docker/grafana/data:/var/lib/grafana \
+      - ./deploy/docker/grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/dashboard.yaml
+      - ./deploy/docker/grafana/data:/var/lib/grafana
+      - ./deploy/docker/grafana/datasources:/etc/grafana/provisioning/datasources
+      - ./deploy/docker/grafana/dashboards:/var/lib/grafana/dashboards/default
     networks:
       - web3_net
     ports:
@@ -69,7 +73,7 @@ services:
     networks:
       - web3_net
   app.interface.web3:
-    image: 'web3/app-interface-web3:latest'
+    image: 'borisliu1/web3-template-app-interface-web3:latest'
     container_name: app.interface.web3
     restart: on-failure
     volumes:
@@ -79,7 +83,7 @@ services:
     networks:
       - web3_net
   app.service.data:
-    image: 'web3/app-service-data:latest'
+    image: 'borisliu1/web3-template-app-service-data:latest'
     container_name: app.service.data
     restart: on-failure
     volumes:
@@ -87,7 +91,7 @@ services:
     networks:
       - web3_net
   app.service.demo:
-    image: 'web3/app-service-demo:latest'
+    image: 'borisliu1/web3-template-app-service-demo:latest'
     container_name: app.service.demo
     restart: on-failure
     volumes:
@@ -95,7 +99,7 @@ services:
     networks:
       - web3_net
   app.job.datawatch:
-    image: 'web3/app-job-datawatch:latest'
+    image: 'borisliu1/web3-template-app-job-datawatch:latest'
     container_name: app.job.datawatch
     restart: on-failure
     volumes:
@@ -103,7 +107,7 @@ services:
     networks:
       - web3_net
   app.job.databus:
-    image: 'web3/app-job-databus:latest'
+    image: 'borisliu1/web3-template-app-job-databus:latest'
     container_name: app.job.databus
     restart: on-failure
     volumes:
@@ -111,7 +115,7 @@ services:
     networks:
       - web3_net
   app.job.analysis:
-    image: 'web3/app-job-analysis:latest'
+    image: 'borisliu1/web3-template-app-job-analysis:latest'
     container_name: app.job.analysis
     restart: on-failure
     volumes:

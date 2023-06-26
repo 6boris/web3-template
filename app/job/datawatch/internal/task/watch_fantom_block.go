@@ -26,7 +26,7 @@ type WatchFantomNewBlockHeader struct {
 
 func NewWatchFantomNewBlockHeader() *WatchFantomNewBlockHeader {
 	inst := &WatchFantomNewBlockHeader{
-		stopNotice: make(chan struct{}, 1),
+		stopNotice: make(chan struct{}, 2),
 		dataCh:     make(chan *ConsumerData, 10),
 	}
 	inst.watchHooks = map[string]WatchHook{

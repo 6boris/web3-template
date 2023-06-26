@@ -1,0 +1,15 @@
+apiVersion: 1
+datasources:
+  - name: MySQL
+    type: mysql
+    url: base.web3.mysql:3306
+    user: root
+    uid: web3_mysql
+    jsonData:
+      database: web3
+      maxOpenConns: 100
+      maxIdleConns: 100
+      maxIdleConnsAuto: true
+      connMaxLifetime: 14400
+    secureJsonData:
+      password: web3

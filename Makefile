@@ -30,12 +30,12 @@ api:
 .PHONY: build
 
 build:
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/interface/web3/cmd/server/main.go APP_NAME=web3/app-interface-web3
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/service/data/cmd/server/main.go APP_NAME=web3/app-service-data
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/service/demo/cmd/server/main.go APP_NAME=web3/app-service-demo
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/datawatch/cmd/server/main.go APP_NAME=web3/app-job-datawatch
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/databus/cmd/server/main.go APP_NAME=web3/app-job-databus
-	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/analysis/cmd/server/main.go APP_NAME=web3/app-job-analysis
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/interface/web3/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-interface-web3
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/service/data/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-service-data
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/service/demo/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-service-demo
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/datawatch/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-job-datawatch
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/databus/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-job-databus
+	make build-app OUTPUT_FILE=bin/app INPUT_FILE=app/job/analysis/cmd/server/main.go APP_NAME=borisliu1/web3-template-app-job-analysis
 
 
 build-app:
@@ -46,14 +46,16 @@ build-app:
 	  -t $(APP_NAME)  \
 	  .
 	docker tag $(APP_NAME):latest $(APP_NAME):$(COMPILE_TIME)-$(VERSION)
+	docker push $(APP_NAME):latest
+	docker push $(APP_NAME):$(COMPILE_TIME)-$(VERSION)
 
-deploy: build
-
+clean:
+	docker compose stop
+	docker compose rm
+	rm -rf deploy/docker/mysql/data
+	rm -rf deploy/docker/grafana/data
+	rm -rf deploy/docker/prometheus/data
+start:
+	docker compose up -d
 all:
 	make api;
-	make config;
-	make generate;
-
-.PHONY: proto
-proto:
-	find app -type d -depth 2 -print | xargs -L 1 bash -c 'cd "$$0" && pwd && $(MAKE) proto'

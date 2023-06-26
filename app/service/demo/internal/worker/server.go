@@ -17,7 +17,7 @@ func NewServer(opts ...ServerOption) *Server {
 	srv.CronJob = cron.New()
 	_, _ = srv.CronJob.AddFunc("@every 2s", srv._demoClient)
 	_, _ = srv.CronJob.AddFunc("@every 10s", srv._demoDao)
-	//_, _ = srv.CronJob.AddFunc("@every 2s", srv._demoDefiPrice)
+	_, _ = srv.CronJob.AddFunc("@every 2s", srv._demoDefiPrice)
 
 	return srv
 }
