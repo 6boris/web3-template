@@ -28,7 +28,7 @@ Here is the architecture diagram and examples:
 </a>
 
 
-<a href="https://web3-studio.leek.dev/d/demo/web3-studio" target="_blank">
+<a href="https://web3-template.leek.dev/d/demo/web3-template?orgId=1" target="_blank">
   <img src="https://s.gin.sh/develop/web3/web3-template-demo.png" alt="Logo">
 </a>
 
