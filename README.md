@@ -22,12 +22,12 @@ can save a lot of time using this.
 
 Here is the architecture diagram and examples:
 
-<a href="https://web3-studio.leek.dev/d/demo/web3-studio" target="_blank">
+<a href="https://web3-template.leek.dev/public-dashboards/35fd3e2fe96a4a948f680802f1fef1e3?orgId=1&refresh=5s" target="_blank">
   <img src="https://s.gin.sh/develop/web3/web3_architecture.png" alt="Logo">
 </a>
 
 
-<a href="https://web3-template.leek.dev/d/demo/web3-template?orgId=1" target="_blank">
+<a href="https://web3-template.leek.dev/public-dashboards/35fd3e2fe96a4a948f680802f1fef1e3?orgId=1&refresh=5s" target="_blank">
   <img src="https://s.gin.sh/develop/web3/web3-template-demo.png" alt="Logo">
 </a>
 
@@ -67,16 +67,16 @@ make clean && make start
 
 Some basic application services and basic service ports
 
-|        Service         | HTTP PORT | GRPC PORT |
-|:----------------------:|:---------:|:---------:|
-|   app.interface.web3   |   61011   |   61012   |
-|    app.service.demo    |   62011   |   62012   |
-|    app.service.data    |   62021   |   62022   |
-| app.service.dex-member |   62041   |   62042   |
-| app.service.dex-member |   62051   |   62052   |
-|   app.job.datawatch    |   63011   |   63012   |
-|    app.job.databus     |   63021   |   63022   |
-|    app.job.analysis    |   63031   |   63032   |
+|         Service         | HTTP PORT | GRPC PORT |
+|:-----------------------:|:---------:|:---------:|
+|   app.interface.web3    |   61011   |   61012   |
+|    app.service.demo     |   62011   |   62012   |
+|    app.service.data     |   62021   |   62022   |
+| app.service.dex-finance |   62031   |   62032   |
+| app.service.dex-member  |   62041   |   62042   |
+|    app.job.datawatch    |   63011   |   63012   |
+|     app.job.databus     |   63021   |   63022   |
+|    app.job.analysis     |   63031   |   63032   |
 
 |         App          |          PORT          |
 |:--------------------:|:----------------------:|

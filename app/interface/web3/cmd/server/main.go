@@ -4,13 +4,13 @@ import (
 	"flag"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	_ "go.uber.org/automaxprocs"
 	"os"
 	"web3/app/interface/web3/internal/client"
 	"web3/app/interface/web3/internal/conf"
 	"web3/app/interface/web3/internal/server"
 	"web3/app/interface/web3/internal/service"
+	"web3/pkg/app"
 )
 
 var (
@@ -26,17 +26,13 @@ func init() {
 func newApp(conf *conf.Bootstrap, logger log.Logger) *kratos.App {
 	svc := service.New(conf)
 	httpServer := server.NewHTTPServer(conf, svc, logger)
-
-	return kratos.New(
-		kratos.ID(conf.GetApp().GetId()),
-		kratos.Name(conf.GetApp().GetId()),
-		kratos.Version(conf.GetApp().GetVersion()),
-		kratos.Metadata(map[string]string{}),
-		kratos.Logger(logger),
+	opts := app.GetAppOpts(app.APP_INTERFACE_WEB3)
+	opts = append(opts,
 		kratos.Server(
 			httpServer,
 		),
 	)
+	return kratos.New(opts...)
 }
 
 func main() {
@@ -45,22 +41,10 @@ func main() {
 	flag.Parse()
 	conf.Init(flagConf)
 	bc := conf.Conf
-	logger := log.With(
-		log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
-		"source", log.DefaultCaller,
-		"trace.id", tracing.TraceID(),
-		"span.id", tracing.SpanID(),
-		"service.id", bc.GetApp().GetId(),
-		"service.env", bc.GetApp().GetEnv(),
-		"service.instance", hostName,
-		"service.cluster", bc.GetApp().GetCluster(),
-		"service.zone", bc.GetApp().GetZone(),
-		"service.version", bc.GetApp().GetVersion(),
-	)
-	client.New(bc, logger)
-	app := newApp(bc, logger)
-	if err := app.Run(); err != nil {
+	logger := app.GetAppLogger(app.APP_INTERFACE_WEB3)
+	client.New(conf.Conf, logger)
+	serverApp := newApp(bc, logger)
+	if err := serverApp.Run(); err != nil {
 		panic(err)
 	}
 }

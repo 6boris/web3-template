@@ -7,10 +7,10 @@ app:
   version: 0.0.1
 server:
   http:
-#    addr: 0.0.0.0:62051
+    addr: 0.0.0.0:62031
     timeout: 1s
   grpc:
-#    addr: 0.0.0.0:62052
+    addr: 0.0.0.0:62032
     timeout: 1s
 data:
   mysql:

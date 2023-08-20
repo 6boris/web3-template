@@ -27,6 +27,7 @@ const (
 	APP_SERVICE_DEX_FINANCE APP_SERVICE_NAME = "app.service.dex-finance"
 	APP_SERVICE_DEX_MEMBER  APP_SERVICE_NAME = "app.service.dex-member"
 	APP_INTERFACE_DEX       APP_SERVICE_NAME = "app.interface.dex"
+	APP_INTERFACE_WEB3      APP_SERVICE_NAME = "app.interface.web3"
 
 	_defaultAppServiceEnv     = "default.env"
 	_defaultAppServiceRegion  = "default.region"
@@ -37,9 +38,9 @@ const (
 
 var _defaultHostName, _ = os.Hostname()
 var _defaultAppServiceId = fmt.Sprintf("%s:%s", _defaultHostName, strings.ReplaceAll(uuid.NewString(), "-", ""))
+var _defaultEtcdOpts = []etcd.Option{etcd.Namespace("/web3-template/microservices")}
 
 func (a APP_SERVICE_NAME) String() string {
-
 	return string(a)
 }
 
@@ -59,7 +60,7 @@ func GetAppOpts(name APP_SERVICE_NAME) []kratos.Option {
 			"version":  _defaultAppServiceVersion,
 		}),
 		kratos.Logger(logger),
-		kratos.Registrar(etcd.New(GetRegistryEtcdClientWithDefalut())),
+		kratos.Registrar(etcd.New(GetRegistryEtcdClientWithDefalut(), _defaultEtcdOpts...)),
 	}
 	return opts
 }
@@ -94,7 +95,7 @@ func GetGrpcClientConn(name APP_SERVICE_NAME) (*grpc.ClientConn, error) {
 		transportGrpc.WithEndpoint(
 			fmt.Sprintf("discovery:///%s", name.String()),
 		),
-		transportGrpc.WithDiscovery(etcd.New(cli)),
+		transportGrpc.WithDiscovery(etcd.New(cli, _defaultEtcdOpts...)),
 		transportGrpc.WithMiddleware(
 			recovery.Recovery(),
 			tracing.Client(),
@@ -123,7 +124,7 @@ func GetHttpClientConn(name APP_SERVICE_NAME) (*transportHttp.Client, error) {
 		transportHttp.WithEndpoint(
 			fmt.Sprintf("discovery:///%s", name.String()),
 		),
-		transportHttp.WithDiscovery(etcd.New(cli)),
+		transportHttp.WithDiscovery(etcd.New(cli, _defaultEtcdOpts...)),
 		transportHttp.WithMiddleware(
 			recovery.Recovery(),
 			tracing.Client(),

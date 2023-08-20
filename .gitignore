@@ -24,6 +24,7 @@ go.work
 
 .idea
 .vscode
+build/
 
 deploy/docker/mysql/data
 deploy/docker/prometheus/data
