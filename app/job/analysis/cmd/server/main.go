@@ -4,7 +4,6 @@ import (
 	"flag"
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
 	_ "go.uber.org/automaxprocs"
 	"os"
 	"web3/app/job/analysis/internal/client"
@@ -12,6 +11,7 @@ import (
 	"web3/app/job/analysis/internal/dao"
 	"web3/app/job/analysis/internal/server"
 	"web3/app/job/analysis/internal/service"
+	"web3/pkg/app"
 )
 
 var (
@@ -29,19 +29,14 @@ func newApp(conf *conf.Bootstrap, logger log.Logger) *kratos.App {
 	grpcServer := server.NewGRPCServer(conf, svc, logger)
 	httpServer := server.NewHTTPServer(conf, svc, logger)
 	workerServer := server.NewWORKERServer(conf, svc, logger)
-
-	return kratos.New(
-		kratos.ID(conf.GetApp().GetId()),
-		kratos.Name(conf.GetApp().GetId()),
-		kratos.Version(conf.GetApp().GetVersion()),
-		kratos.Metadata(map[string]string{}),
-		kratos.Logger(logger),
+	opts := app.GetAppOpts(app.APP_JOB_ANALYSIS)
+	opts = append(opts,
 		kratos.Server(
 			grpcServer,
 			httpServer,
 			workerServer,
-		),
-	)
+		))
+	return kratos.New(opts...)
 }
 
 func main() {
@@ -50,25 +45,11 @@ func main() {
 	flag.Parse()
 	conf.Init(flagConf)
 	bc := conf.Conf
-
 	dao.New(bc)
-
-	logger := log.With(
-		log.NewStdLogger(os.Stdout),
-		"ts", log.DefaultTimestamp,
-		"source", log.DefaultCaller,
-		"trace.id", tracing.TraceID(),
-		"span.id", tracing.SpanID(),
-		"service.id", bc.GetApp().GetId(),
-		"service.env", bc.GetApp().GetEnv(),
-		"service.instance", hostName,
-		"service.cluster", bc.GetApp().GetCluster(),
-		"service.zone", bc.GetApp().GetZone(),
-		"service.version", bc.GetApp().GetVersion(),
-	)
+	logger := app.GetAppLogger(app.APP_JOB_ANALYSIS)
 	client.New(bc, logger)
-	app := newApp(bc, logger)
-	if err := app.Run(); err != nil {
+	serverApp := newApp(bc, logger)
+	if err := serverApp.Run(); err != nil {
 		panic(err)
 	}
 }

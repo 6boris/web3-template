@@ -28,6 +28,9 @@ const (
 	APP_SERVICE_DEX_MEMBER  APP_SERVICE_NAME = "app.service.dex-member"
 	APP_INTERFACE_DEX       APP_SERVICE_NAME = "app.interface.dex"
 	APP_INTERFACE_WEB3      APP_SERVICE_NAME = "app.interface.web3"
+	APP_JOB_ANALYSIS        APP_SERVICE_NAME = "app.job.analysis"
+	APP_JOB_DATABUS         APP_SERVICE_NAME = "app.job.databus"
+	APP_JOB_DATAWATCH       APP_SERVICE_NAME = "app.job.datawatch"
 
 	_defaultAppServiceEnv     = "default.env"
 	_defaultAppServiceRegion  = "default.region"

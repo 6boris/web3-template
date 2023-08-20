@@ -5,7 +5,6 @@ import (
 	"github.com/go-kratos/kratos/v2"
 	"github.com/go-kratos/kratos/v2/log"
 	_ "go.uber.org/automaxprocs"
-	"os"
 	"web3/app/service/data/internal/client"
 	"web3/app/service/data/internal/conf"
 	"web3/app/service/data/internal/dao"
@@ -16,8 +15,7 @@ import (
 
 var (
 	// flagConf is the config flag.
-	flagConf    string
-	hostName, _ = os.Hostname()
+	flagConf string
 )
 
 func init() {
