@@ -67,17 +67,18 @@ make clean && make start
 
 Some basic application services and basic service ports
 
-|         Service         | HTTP PORT | GRPC PORT |
-|:-----------------------:|:---------:|:---------:|
-|   app.interface.web3    |   61011   |   61012   |
-|    app.service.demo     |   62011   |   62012   |
-|    app.service.data     |   62021   |   62022   |
-| app.service.dex-finance |   62031   |   62032   |
-| app.service.dex-member  |   62041   |   62042   |
-|    app.job.datawatch    |   63011   |   63012   |
-|     app.job.databus     |   63021   |   63022   |
-|    app.job.analysis     |   63031   |   63032   |
+|         Service         | HTTP PORT | GRPC PORT |                Mark                 |
+|:-----------------------:|:---------:|:---------:|:-----------------------------------:|
+|   app.interface.web3    |   61011   |   61012   |       a web3 generic gateway        |
+|    app.service.demo     |   62011   |   62012   |         a demo application          |
+|    app.service.data     |   62021   |   62022   |      a basis data application       |
+| app.service.dex-finance |   62031   |   62032   |       dex financial services        |
+| app.service.dex-member  |   62041   |   62042   |        dex user applications        |
+|    app.job.datawatch    |   63011   |   63012   |       watch Data on the chain       |
+|     app.job.databus     |   63021   |   63022   | handling some asynchronous messages |
+|    app.job.analysis     |   63031   |   63032   |        a data analysis task         |
 
+some docker base  app port
 |         App          |          PORT          |
 |:--------------------:|:----------------------:|
 |   base.web3.mysql    |         60001          |
