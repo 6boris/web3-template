@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+package api.service.dex_member;
+
+option go_package = "web3/api/service/dex_member;dex_member";
+option java_multiple_files = true;
+option java_package = "api.service.dex_member";
+
+import "service/dex-member/base.proto";
+
+service Auth {
+  rpc AuthSignIn(AuthSignInRequest) returns (AuthSignInReply);
+  rpc AuthSignUp(AuthSignUpRequest) returns (AuthSignUpReply);
+  rpc AuthVerify(AuthVerifyRequest) returns (AuthVerifyReply);
+}
+
+message AuthSignInRequest {
+  string email = 1;
+  string password = 2;
+}
+message AuthSignInReply {
+  string jwt_token = 1;
+}
+
+message AuthSignUpRequest {}
+message AuthSignUpReply {}
+
+message AuthVerifyRequest {
+  string jwt_token = 1;
+}
+message AuthVerifyReply {
+  UserItem user = 1;
+}

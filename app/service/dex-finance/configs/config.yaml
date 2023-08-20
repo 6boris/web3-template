@@ -1,0 +1,23 @@
+app:
+  id: app.service.dex-finance
+  env: dev
+  instance: app.service.dex-finance.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+#    addr: 0.0.0.0:62051
+    timeout: 1s
+  grpc:
+#    addr: 0.0.0.0:62052
+    timeout: 1s
+data:
+  mysql:
+    name: web3.dex-finance.mysql
+    dsn: root:@tcp(127.0.0.1:3306)/dex?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    name: web3.dex-finance.redis
+    addr: 127.0.0.1:6379
+    read_timeout: 0.2s
+    write_timeout: 0.2s

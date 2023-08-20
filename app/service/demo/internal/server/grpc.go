@@ -1,6 +1,7 @@
 package server
 
 import (
+	"fmt"
 	"github.com/go-kratos/aegis/ratelimit/bbr"
 	"github.com/go-kratos/kratos/v2/log"
 	"github.com/go-kratos/kratos/v2/middleware/logging"
@@ -15,6 +16,7 @@ import (
 	"web3/api/service/demo"
 	"web3/app/service/demo/internal/conf"
 	"web3/app/service/demo/internal/service"
+	"web3/pkg/net"
 	"web3/pkg/otel"
 )
 
@@ -46,6 +48,8 @@ func NewGRPCServer(c *conf.Bootstrap, s *service.Service, logger log.Logger) *gr
 	}
 	if c.Server.Grpc.Addr != "" {
 		opts = append(opts, grpc.Address(c.Server.Grpc.Addr))
+	} else {
+		opts = append(opts, grpc.Address(fmt.Sprintf("0.0.0.0:%d", net.GetRandPort(60001, 61001))))
 	}
 	if c.Server.Grpc.Timeout != nil {
 		opts = append(opts, grpc.Timeout(c.Server.Grpc.Timeout.AsDuration()))

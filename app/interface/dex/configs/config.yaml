@@ -1,0 +1,15 @@
+app:
+  id: app.interface.dex
+  env: dev
+  instance: app.service.dex-finance.instance.default
+  cluster: web3.cluster.default
+  zone: web3.zone.default
+  version: 0.0.1
+server:
+  http:
+    addr: 0.0.0.0:62041
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:62042
+    timeout: 1s
+

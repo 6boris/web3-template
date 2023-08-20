@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+package api.interface.dex;
+
+option go_package = "web3/api/interface/dex;dex";
+option java_multiple_files = true;
+option java_package = "api.interface.dex";
+
+import "google/api/annotations.proto";
+
+service Assets {
+  rpc GetUserAccountsAssets (GetUserAccountsAssetsRequest) returns (GetUserAccountsAssetsReply) {
+    option (google.api.http) = {
+      get: "/api/gateway/interface/dex/assets/user_coin"
+    };
+  };
+}
+
+message GetUserAccountsAssetsRequest {
+  string jwt_token = 1;
+}
+message GetUserAccountsAssetsReply {
+  message User {
+    int64 user_id = 1 [json_name = "user_id"];
+    string nick_name = 2 [json_name = "nick_name"];
+  }
+  message Account {
+    int64 rank = 1 [json_name = "rank"];
+    int64 user_id = 2 [json_name = "user_id"];
+    int64 coin_id = 3 [json_name = "coin_id"];
+    int64 type = 4 [json_name = "type"];
+    int64 status = 5 [json_name = "status"];
+    double balance_amount = 6 [json_name = "balance_amount"];
+    double freeze_amount = 7 [json_name = "freeze_amount"];
+    string recharge_address = 8 [json_name = "recharge_address"];
+  }
+  User user = 1 [json_name = "user"];
+  repeated  Account accounts = 2 [json_name = "accounts"];
+}

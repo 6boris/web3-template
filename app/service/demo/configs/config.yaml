@@ -25,3 +25,5 @@ client:
   app_service_demo_http: 127.0.0.1:62011
   app_service_demo_grpc: 127.0.0.1:62012
   app_interface_web3_http: 127.0.0.1:61011
+  app_service_dex_member_grpc: 127.0.0.1:62042
+  app_service_dex_finance_grpc: 127.0.0.1:62052

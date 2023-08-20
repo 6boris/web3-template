@@ -13,8 +13,8 @@ services:
       MYSQL_ROOT_PASSWORD: web3
       MYSQL_DATABASE: web3
       TZ: Asia/Shanghai
-    ports:
-        - '60001:3306'
+#    ports:
+#        - '60001:3306'
     volumes:
       - ./deploy/docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./deploy/docker/mysql/data:/var/lib/mysql
@@ -30,8 +30,8 @@ services:
     image: 'rabbitmq:management'
     container_name: base.web3.rabbitmq
     restart: on-failure
-    ports:
-      - '60003:15672'
+#    ports:
+#      - '60003:15672'
     networks:
       - web3_net
   base.web3.prometheus:
@@ -43,8 +43,8 @@ services:
       - ./deploy/docker/prometheus/data:/opt/bitnami/prometheus/data
     networks:
       - web3_net
-    ports:
-      - '60004:9090'
+#    ports:
+#      - '60004:9090'
   base.web3.grafana:
     image: 'grafana/grafana:latest'
     container_name: base.web3.grafana
@@ -78,8 +78,8 @@ services:
     restart: on-failure
     volumes:
       - ./deploy/docker/conf/app.interface.web3:/app/configs
-    ports:
-      - '51011:8000'
+#    ports:
+#      - '51011:8000'
     networks:
       - web3_net
   app.service.data:
