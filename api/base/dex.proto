@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package api.base;
+
+option go_package = "web3/api/base;base";
+option java_multiple_files = true;
+option java_package = "api.base";
+

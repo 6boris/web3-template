@@ -7,35 +7,34 @@ related to the server side of Web3 business nowadays.
 
 **Framework technology is stable and powerful：**
 
-The use of microservices framework, this framework supports the stable operation of 
-[BILIBILI](https://www.bilibili.com/) more than thousands of  service framework, the workplace 100 million DAU.
+The use of microservices framework, this framework supports the stable operation of
+[BILIBILI](https://www.bilibili.com/) more than thousands of service framework, the workplace 100 million DAU.
 
 **Extensive Web3 server experience：**
 
-The project initiator has multiple startups in the Web3 field and has used 
+The project initiator has multiple startups in the Web3 field and has used
 this technology to support multiple project launches and runs.
 
 **Sufficient cases to refer：**
 
-The case will provide a very large number of Web3 functional examples, startup projects 
+The case will provide a very large number of Web3 functional examples, startup projects
 can save a lot of time using this.
-
 
 Here is the architecture diagram and examples:
 
-<a href="https://web3-studio.leek.dev/d/demo/web3-studio" target="_blank">
+<a href="https://web3-template.leek.dev/public-dashboards/35fd3e2fe96a4a948f680802f1fef1e3?orgId=1&refresh=5s" target="_blank">
   <img src="https://s.gin.sh/develop/web3/web3_architecture.png" alt="Logo">
 </a>
 
 
-<a href="https://web3-template.leek.dev/d/demo/web3-template?orgId=1" target="_blank">
+<a href="https://web3-template.leek.dev/public-dashboards/35fd3e2fe96a4a948f680802f1fef1e3?orgId=1&refresh=5s" target="_blank">
   <img src="https://s.gin.sh/develop/web3/web3-template-demo.png" alt="Logo">
 </a>
-
 
 ## Quick Start
 
 - clone repo
+
 ```shell
 git clone git@github.com:6boris/web3-template.git
 cd web3-template
@@ -43,12 +42,14 @@ cd web3-template
 
 - Install [Docker](https://code.visualstudio.com)
 
-- Local run 
+- Local run
+
 ```shell
 make clean && make start
 ```
+
 - Open Grafana http://localhost:60005
-  - Login with admin/admin
+    - Login with admin/admin
 
 ## Development Manual
 
@@ -66,14 +67,16 @@ make clean && make start
 
 Some basic application services and basic service ports
 
-|       Service       | HTTP PORT | GRPC PORT |
-|:-------------------:|:---------:|:---------:|
-| app.interface.web3  |   61011   |   61012   |
-|  app.service.demo   |   62011   |   62012   |
-|  app.service.data   |   62021   |   62022   |
-|  app.job.datawatch  |   63011   |   63012   |
-|   app.job.databus   |   63021   |   63022   |
-|  app.job.analysis   |   63031   |   63032   |
+|         Service         | HTTP PORT | GRPC PORT |
+|:-----------------------:|:---------:|:---------:|
+|   app.interface.web3    |   61011   |   61012   |
+|    app.service.demo     |   62011   |   62012   |
+|    app.service.data     |   62021   |   62022   |
+| app.service.dex-finance |   62031   |   62032   |
+| app.service.dex-member  |   62041   |   62042   |
+|    app.job.datawatch    |   63011   |   63012   |
+|     app.job.databus     |   63021   |   63022   |
+|    app.job.analysis     |   63031   |   63032   |
 
 |         App          |          PORT          |
 |:--------------------:|:----------------------:|

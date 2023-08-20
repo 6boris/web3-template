@@ -1,0 +1,34 @@
+syntax = "proto3";
+package kratos.api;
+
+option go_package = "web3/app/job/dex-finance/internal/conf;conf";
+
+import "google/protobuf/duration.proto";
+message Bootstrap {
+  App app = 1;
+  Server server = 2;
+}
+
+message App {
+  string id = 1;
+  string env = 2;
+  string cluster = 3;
+  string zone = 4;
+  string instance = 5;
+  string version = 6;
+}
+
+message Server {
+  message HTTP {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  message GRPC {
+    string network = 1;
+    string addr = 2;
+    google.protobuf.Duration timeout = 3;
+  }
+  HTTP http = 1;
+  GRPC grpc = 2;
+}

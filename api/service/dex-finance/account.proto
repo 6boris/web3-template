@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+package api.service.dex_finance;
+
+option go_package = "web3/api/service/dex_finance;dex_finance";
+option java_multiple_files = true;
+option java_package = "api.service.dex_finance";
+
+import "service/dex-finance/base.proto";
+import "google/protobuf/timestamp.proto";
+
+service Account {
+  rpc GetAccount(GetAccountRequest) returns (GetAccountReply);
+  rpc AccountRechargeTry(AccountRechargeRequest) returns (AccountRechargeReply);
+  rpc AccountRechargeConfirm(AccountRechargeRequest) returns (AccountRechargeReply);
+  rpc AccountRechargeCancel(AccountRechargeRequest) returns (AccountRechargeReply);
+}
+
+message GetAccountRequest {
+  int64 user_id = 1;
+  int64 coin_id = 2;
+  string account_type = 3;
+}
+message GetAccountReply {
+  AccountItem item = 1;
+}
+
+message AccountRechargeRequest {
+  int64 user_id = 1;
+  int64 coin_id = 2;
+  string  account_type = 3;
+  string  trade_type = 4;
+  double amount = 5;
+  string stream_id = 6;
+  string remark = 7;
+  string extra_data = 8;
+  google.protobuf.Timestamp trade_time = 9;
+}
+message AccountRechargeReply {
+  int64 user_id = 1;
+  int64 coin_id = 2;
+  int64 account_type = 3;
+  double after_amount = 4;
+}

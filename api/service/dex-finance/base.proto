@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package api.service.dex_finance;
+
+option go_package = "web3/api/service/dex_finance;dex_finance";
+option java_multiple_files = true;
+option java_package = "api.service.dex_finance";
+
+import "google/protobuf/timestamp.proto";
+
+message CoinItem {
+  int64 id = 1;
+  string name = 2;
+  string title = 3;
+  string img = 4;
+  int64 type = 5;
+  int64 round = 6;
+  double base_amount = 7;
+  google.protobuf.Timestamp created_at = 30;
+  google.protobuf.Timestamp updated_at = 31;
+}
+
+message AccountItem {
+  int64 id = 1;
+  int64 user_id = 2;
+  int64 coin_id = 3;
+  int64 status = 4;
+  string account_type = 5;
+  double amount = 6;
+  google.protobuf.Timestamp created_at = 101;
+  google.protobuf.Timestamp updated_at = 102;
+}

@@ -1,71 +1,51 @@
 package client
 
 import (
-	"context"
 	"github.com/go-kratos/kratos/v2/log"
-	"github.com/go-kratos/kratos/v2/middleware/logging"
-	"github.com/go-kratos/kratos/v2/middleware/recovery"
-	"github.com/go-kratos/kratos/v2/middleware/tracing"
-	"github.com/go-kratos/kratos/v2/transport/grpc"
-	"github.com/go-kratos/kratos/v2/transport/http"
 	"web3/api/service/demo"
+	dexFinance "web3/api/service/dex-finance"
+	dexMember "web3/api/service/dex-member"
 	"web3/app/service/demo/internal/conf"
-	"web3/pkg/otel"
+	"web3/pkg/app"
 )
 
 var GlobalClient *Client
 
 type Client struct {
-	ClientAppServiceDemoUserGRPC demo.UserClient
-	ClientAppServiceDemoUserHTTP demo.UserHTTPClient
+	ClientAppServiceDemoUserGRPC       demo.UserClient
+	ClientAppServiceDemoUserHTTP       demo.UserHTTPClient
+	ClientAppServiceDexMemberUserGRPC  dexMember.UserClient
+	ClientAppServiceDexMemberAuthGRPC  dexMember.AuthClient
+	ClientAppServiceDexFinanceCoinGRPC dexFinance.CoinClient
 }
 
 func New(conf *conf.Bootstrap, logger log.Logger) *Client {
-	clientConf := conf.GetClient()
-	ctx := context.Background()
 	c := &Client{}
-	conn1, err := http.NewClient(context.Background(),
-		http.WithEndpoint(clientConf.GetAppServiceDemoHttp()),
-		http.WithMiddleware(
-			recovery.Recovery(),
-			tracing.Client(),
-			logging.Client(logger),
-			otel.MetricsClient(&otel.Conf{
-				AppID:    conf.GetApp().GetId(),
-				Env:      conf.GetApp().GetEnv(),
-				Instance: conf.GetApp().GetInstance(),
-				Cluster:  conf.GetApp().GetCluster(),
-				Zone:     conf.GetApp().GetZone(),
-				Version:  conf.GetApp().GetVersion(),
-			}),
-		),
-	)
+	appServiceDemoHttpConn, err := app.GetHttpClientConn(app.APP_SERVICE_DEMO)
 	if err != nil {
 		panic(err)
 	}
+	c.ClientAppServiceDemoUserHTTP = demo.NewUserHTTPClient(appServiceDemoHttpConn)
 
-	c.ClientAppServiceDemoUserHTTP = demo.NewUserHTTPClient(conn1)
-
-	conn2, err := grpc.DialInsecure(ctx,
-		grpc.WithEndpoint(clientConf.GetAppServiceDemoGrpc()),
-		grpc.WithMiddleware(
-			recovery.Recovery(),
-			tracing.Client(),
-			logging.Client(logger),
-			otel.MetricsClient(&otel.Conf{
-				AppID:    conf.GetApp().GetId(),
-				Env:      conf.GetApp().GetEnv(),
-				Instance: conf.GetApp().GetInstance(),
-				Cluster:  conf.GetApp().GetCluster(),
-				Zone:     conf.GetApp().GetZone(),
-				Version:  conf.GetApp().GetVersion(),
-			}),
-		),
-	)
+	appServiceDemoGrpcConn, err := app.GetGrpcClientConn(app.APP_SERVICE_DEMO)
 	if err != nil {
 		panic(err)
 	}
-	c.ClientAppServiceDemoUserGRPC = demo.NewUserClient(conn2)
+	c.ClientAppServiceDemoUserGRPC = demo.NewUserClient(appServiceDemoGrpcConn)
+
+	appServiceDexMemberGrpcConn, err := app.GetGrpcClientConn(app.APP_SERVICE_DEX_MEMBER)
+	if err != nil {
+		panic(err)
+	}
+	c.ClientAppServiceDexMemberUserGRPC = dexMember.NewUserClient(appServiceDexMemberGrpcConn)
+	c.ClientAppServiceDexMemberAuthGRPC = dexMember.NewAuthClient(appServiceDexMemberGrpcConn)
+
+	appServiceDexFinanceGrpcConn, err := app.GetGrpcClientConn(app.APP_SERVICE_DEX_FINANCE)
+	if err != nil {
+		panic(err)
+	}
+	c.ClientAppServiceDexFinanceCoinGRPC = dexFinance.NewCoinClient(appServiceDexFinanceGrpcConn)
+
 	GlobalClient = c
 	return c
 }

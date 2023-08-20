@@ -247,3 +247,52 @@ UNLOCK TABLES;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2023-06-23 15:00:37
+
+/*
+
+
+
+*/
+CREATE database dex DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE TABLE dex.user (
+   `id` bigint NOT NULL DEFAULT '0' COMMENT '用户ID',
+   `nick_name` varchar(50) COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '用户昵称',
+   `real_name` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '真实名称',
+   `avatar_url` varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像URL',
+   `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '邮箱地址',
+   `password` varchar(500) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '密码',
+   `country` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '国家',
+   `company` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '公司',
+   `address` varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '地址',
+   `state` varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '街道',
+   `city` varchar(200) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '城市',
+   `zip_code` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '邮编',
+   `about` varchar(200) COLLATE utf8mb4_general_ci DEFAULT '自我介绍',
+   `phone_number` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '手机号',
+   `phone_area_code` varchar(50) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '手机区域号',
+   `roles` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '角色',
+   `status` varchar(100) COLLATE utf8mb4_general_ci NOT NULL DEFAULT '状态：0，启用；1，禁用；',
+   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`),
+   KEY `user_idx_email` (`email`),
+   KEY `user_idx_phone` (`phone_area_code`,`phone_number`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户表'
+
+CREATE TABLE `account` (
+   `id` bigint NOT NULL AUTO_INCREMENT COMMENT '自增id',
+   `user_id` bigint NOT NULL COMMENT '用户ID',
+   `coin_id` bigint NOT NULL COMMENT '币种ID',
+   `status` tinyint(1) NOT NULL COMMENT '账号状态：1，正常；2，冻结；',
+   `balance_amount` decimal(40,20) NOT NULL COMMENT '币种可用金额',
+   `freeze_amount` decimal(40,20) NOT NULL COMMENT '币种冻结金额',
+   `recharge_amount` decimal(40,20) NOT NULL COMMENT '累计充值金额',
+   `withdrawals_amount` decimal(40,20) NOT NULL COMMENT '累计提现金额',
+   `rec_addr` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT '' COMMENT '充值地址',
+   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+   PRIMARY KEY (`id`) USING BTREE,
+   UNIQUE KEY `userid_coinid_unique` (`user_id`,`coin_id`) USING BTREE,
+   KEY `account_coin_id_ref` (`coin_id`) USING BTREE,
+   KEY `inx_platform_account` (`user_id`) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='用户资产记录';

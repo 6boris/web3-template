@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package api.service.dex_finance;
+
+option go_package = "web3/api/service/dex_finance;dex_finance";
+option java_multiple_files = true;
+option java_package = "api.service.dex_finance";
+
+import "service/dex-finance/base.proto";
+
+service Coin {
+  rpc GetCoin (GetCoinRequest) returns (GetCoinReply);
+}
+
+message GetCoinRequest {
+  int64 id = 1;
+  string name = 2;
+}
+message GetCoinReply {
+  CoinItem item = 1 [json_name = "item"];
+}
+

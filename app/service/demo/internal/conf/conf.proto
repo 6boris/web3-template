@@ -66,4 +66,6 @@ message Client {
   string app_service_demo_http = 1;
   string app_service_demo_grpc = 2;
   string app_interface_web3_http = 3;
+  string app_service_dex_member_grpc = 4;
+  string app_service_dex_finance_grpc = 5;
 }

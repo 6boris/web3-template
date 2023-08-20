@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api.service.dex_member;
+
+option go_package = "web3/api/service/dex_member;dex_member";
+option java_multiple_files = true;
+option java_package = "api.service.dex_member";
+
+import "google/protobuf/timestamp.proto";
+
+message UserItem {
+  int64 id = 1;
+  string nick_name = 2;
+  string avatar_url = 3;
+  string email = 4;
+  google.protobuf.Timestamp created_at = 5;
+  google.protobuf.Timestamp updated_at = 6;
+}
