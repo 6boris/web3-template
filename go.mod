@@ -3,7 +3,7 @@ module web3
 go 1.21
 
 require (
-	github.com/6boris/web3-go v0.0.7
+	github.com/6boris/web3-go v0.0.8
 	github.com/davecgh/go-spew v1.1.1
 	github.com/dtm-labs/dtm v1.17.3
 	github.com/ethereum/go-ethereum v1.12.2
